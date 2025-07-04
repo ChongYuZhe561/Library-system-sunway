@@ -1,0 +1,233 @@
+books_list = []
+members_list = []
+lending_list = []
+#tba lists to seperate text files
+import pandas as pd
+import os
+from pathlib import Path
+books_list = []
+members_list = []
+lending_list = []
+colummn_names=['Book ID', 'Book Title', 'Book Author', 'availability']
+members_names=['Member ID', 'Member Name', 'Member Contact',]
+lending_names=['Book ID', 'Member ID', 'Lending Date', 'return Date']
+
+# Define column names for display
+column_names_books = colummn_names
+column_names_members = members_names
+column_names_lending = lending_names
+BOOKS_FILE = Path('C:/Users/richa/Downloads/test for lib system/books.txt')
+MEMBERS_FILE =Path('C:/Users/richa/Downloads/test for lib system/members.txt')
+LENDING_FILE = Path('C:/Users/richa/Downloads/test for lib system/lending.txt')
+
+BOOKS_FILE.parent.mkdir(parents=True, exist_ok=True)
+MEMBERS_FILE.parent.mkdir(parents=True, exist_ok=True)
+LENDING_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+if os.path.exists(BOOKS_FILE):
+    try:
+        df_books = pd.read_csv(BOOKS_FILE, sep='|', header=0, names=colummn_names)
+        books_list = df_books.values.tolist() # Convert DataFrame to list of lists/tuples
+        print(f"Loaded {len(books_list)} books from {BOOKS_FILE}")
+    except pd.errors.EmptyDataError:
+        print(f"'{BOOKS_FILE}' is empty. Starting with an empty books list.")
+        books_list = []
+    except Exception as e:
+        print(f"Error loading books from {BOOKS_FILE}: {e}")
+        books_list = []
+else:
+    print(f"'{BOOKS_FILE}' not found. Starting with an empty books list.")
+
+# Load members
+if os.path.exists(MEMBERS_FILE):
+    try:
+        df_members = pd.read_csv(MEMBERS_FILE, sep='|', header=0, names=members_names)
+        members_list = df_members.values.tolist()
+        print(f"Loaded {len(members_list)} members from {MEMBERS_FILE}")
+    except pd.errors.EmptyDataError:
+        print(f"'{MEMBERS_FILE}' is empty. Starting with an empty members list.")
+        members_list = []
+    except Exception as e:
+        print(f"Error loading members from {MEMBERS_FILE}: {e}")
+        members_list = []
+else:
+    print(f"'{MEMBERS_FILE}' not found. Starting with an empty members list.")
+
+# Load lending records
+if os.path.exists(LENDING_FILE):
+    try:
+        df_lending = pd.read_csv(LENDING_FILE, sep='|', header=0, names=lending_names)
+        lending_list = df_lending.values.tolist()
+        print(f"Loaded {len(lending_list)} lending records from {LENDING_FILE}")
+    except pd.errors.EmptyDataError:
+        print(f"'{LENDING_FILE}' is empty. Starting with an empty lending list.")
+        lending_list = []
+    except Exception as e:
+        print(f"Error loading lending records from {LENDING_FILE}: {e}")
+        
+# --- Save Data Function ---
+def save_data():
+    """Saves data from global lists to text files."""
+    if books_list:
+        df_books = pd.DataFrame(books_list, columns=column_names_books)
+        df_books.to_csv(BOOKS_FILE, sep='|', index=False)
+        print(f"Saved {len(books_list)} books to {BOOKS_FILE}")
+    else:
+        with BOOKS_FILE.open('w') as f:
+            f.write("|".join(column_names_books) + "\n")
+        print(f"Cleared {BOOKS_FILE} (empty books list) and wrote header.")
+
+    if members_list:
+        df_members = pd.DataFrame(members_list, columns=column_names_members)
+        df_members.to_csv(MEMBERS_FILE, sep='|', index=False)
+        print(f"Saved {len(members_list)} members to {MEMBERS_FILE}")
+    else:
+        with MEMBERS_FILE.open('w') as f:
+            f.write("|".join(column_names_members) + "\n")
+        print(f"Cleared {MEMBERS_FILE} (empty members list) and wrote header.")
+
+    if lending_list:
+        df_lending = pd.DataFrame(lending_list, columns=column_names_lending)
+        df_lending.to_csv(LENDING_FILE, sep='|', index=False)
+        print(f"Saved {len(lending_list)} lending records to {LENDING_FILE}")
+    else:
+        with LENDING_FILE.open('w') as f:
+            f.write("|".join(column_names_lending) + "\n")
+        print(f"Cleared {LENDING_FILE} (empty lending list) and wrote header.")
+
+
+
+def menu(): 
+    print("1. Add New Book")
+    print("2. Register New Member")
+    print("3. Lend Book")
+    print("4. Return Book")
+    print("5. Display Books Inventory")
+    print("6. Display Members Information")
+    print("7. Exit")
+
+    while True:
+        choice = input("What would you like to do? ").lower()
+
+        if choice in ['1', 'add new book']:
+            book_ID = input("Book ID: ").strip()
+
+            # Check if book already exists (BEFORE collecting more info or appending)
+            if any(book[0] == book_ID for book in books_list):
+                print("❌ Book with this ID already exists. Please use a different ID.")
+                continue # Go back to the menu loop
+
+            book_title = input("Book title: ").strip()
+            book_author = input("Book Author: ").strip()
+            availability = "Available" # Consistent string value for availability
+
+            # If no duplicate, then add the new book with 4 elements
+            books_list.append([book_ID, book_title, book_author, availability])
+            print(f"✅ Book '{book_title}' added successfully with ID '{book_ID}'!")
+
+        # --- 2. Register New Member ---
+        elif choice in ['2', 'add new member', 'register new member']:
+            member_ID = input("Member ID: ").strip()
+            # Optional: Add duplicate member ID check here as well
+            if any(member[0] == member_ID for member in members_list):
+                print("❌ Member with this ID already exists. Please use a different ID.")
+                continue
+
+            member_name = input("Member name: ").strip()
+            member_contact = input("Member contact: ").strip()
+            members_list.append([member_ID, member_name, member_contact])
+            print("✅ Member added successfully!")
+
+        # --- 3. Lend Book ---
+        elif choice in ['3', 'lend book', 'lend a book']:
+            lend_book_ID = input("Book ID to lend: ").strip()
+            lend_member_ID = input("Member ID to lend: ").strip()
+
+            # Optional: Check if member ID exists before proceeding with lending
+            if not any(member[0] == lend_member_ID for member in members_list):
+                print(f"❌ Error: Member with ID '{lend_member_ID}' not found.")
+                continue
+
+            # First, try to find the book and check its availability
+            book_found_in_inventory = False
+            book_is_available = False
+            for i, book in enumerate(books_list): # Use enumerate to get index for updating
+                if book[0] == lend_book_ID:
+                    book_found_in_inventory = True
+                    # CORRECTED: Explicitly check for the string "Available"
+                    if book[3] == "Available":
+                        book_is_available = True
+                        # CORRECTED: Set availability to the string "Borrowed"
+                        books_list[i][3] = "Borrowed"
+                        break # Book found and status checked, exit loop
+
+            if not book_found_in_inventory:
+                print(f"❌ Error: Book with ID '{lend_book_ID}' not found in inventory.")
+            elif not book_is_available:
+                # If book was found but not available, 'book' variable still holds its data
+                print(f"❌ Book '{lend_book_ID}' is currently not available for lending (Status: {book[3]}).")
+            else:
+                lend_date = input("Lending date (YYYY-MM-DD): ").strip()
+                return_date_placeholder = "Not Returned" # Consistent placeholder for return date
+                # If book is found and available, then record the lending transaction
+                lending_list.append([lend_book_ID, lend_member_ID, lend_date, return_date_placeholder])
+                print(f"✅ Book '{lend_book_ID}' successfully lent to member '{lend_member_ID}' on {lend_date}.")
+
+        # --- 4. Return Book ---
+        elif choice in ['4', 'return book', 'return a book']:
+            return_book_ID = input("Book ID to return: ").strip()
+            return_member_ID = input("Member ID who returned the book: ").strip()
+            return_date = input("Returning date (YYYY-MM-DD): ").strip()
+
+            # Update the return date in the lending_list
+            found_lending_record = False
+            for i, record in enumerate(lending_list):
+                # Match Book ID and Member ID, and check if it's currently 'Not Returned'
+                if record[0] == return_book_ID and record[1] == return_member_ID and record[3] == "Not Returned":
+                    lending_list[i][3] = return_date # Update 'Return Date'
+                    found_lending_record = True
+                    break
+
+            if not found_lending_record:
+                print("⚠️ Warning: No active lending record found for this Book ID and Member ID, or it was already returned.")
+            else:
+                # Update book availability to 'Available' in books_list
+                found_book_in_inventory = False
+                for i, book in enumerate(books_list):
+                    if book[0] == return_book_ID:
+                        books_list[i][3] = "Available" # Set availability to the string "Available"
+                        found_book_in_inventory = True
+                        break
+                if not found_book_in_inventory:
+                    print(f"⚠️ Warning: Book ID '{return_book_ID}' not found in inventory. Book status not updated.")
+                print("✅ Book return recorded and availability updated!")
+
+        # --- 5. Display Books Inventory ---
+        elif choice in ['5', 'display books inventory', 'show books inventory']:
+            if not books_list:
+                print("No books in inventory.")
+            else:
+                df_display_books = pd.DataFrame(books_list, columns=column_names_books)
+                print("\n--- Books Inventory ---")
+                print(df_display_books.to_string(index=False))
+
+        # --- 6. Display Members Information ---
+        elif choice in ['6', 'display members information', 'show members information']:
+            if not members_list:
+                print("No members registered.")
+            else:
+                df_display_members = pd.DataFrame(members_list, columns=column_names_members)
+                print("\n--- Members Information ---")
+                print(df_display_members.to_string(index=False))
+
+        # --- 7. Exit ---
+        elif choice in ['7', 'exit', 'quit']:
+            save_data() # Save all data before exiting
+            print("👋 Exiting the system. Goodbye!")
+            break
+        else:
+            print("❌ Invalid choice. Please try again.")
+            
+
+if __name__ == "__main__":
+    menu() 
