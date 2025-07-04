@@ -12,5 +12,12 @@ Forget everything you know about libraries. This is not a building with books. T
 
 
 
-
 # HOW TO CREATE TXT FILE AND WHAT LINE TO REPLACE FOR THE SYSTEM TO WORK
+1. Download all three text file on the repo. (no virus Don't worry)
+2. Place those three file into any directory you want. ( eg. Desktop, Downloads )
+   ![Screenshot 2025-07-04 235447](https://github.com/user-attachments/assets/03776d73-623a-48bb-8751-0db5c92e3587)
+4. Copy the file path lead to the txt file and paste into the code
+   >C:\Users\xxx\Downloads\xxxx< Should look something like that your file path
+   ![Screenshot 2025-07-04 235652](https://github.com/user-attachments/assets/212d7477-e2db-4090-a8ff-4f6ee1f3baee)
+   ## PUT HERE
+6. DONE
