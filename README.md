@@ -9,7 +9,7 @@ We provide a frictionless, end-to-end solution for the modern bibliophile. Throu
 Forget everything you know about libraries. This is not a building with books. This is a robust, scalable, future-proof platform for the curation of human knowledge. We aren't just checking out paperbacks; we are building the future of text-based data actualization, today.
 
 ![1430835255-ryan-gosling-cereal-001](https://github.com/user-attachments/assets/27941eff-c440-4a05-8f61-eac7d37902fa)
-#Depencencies
+# Depencencies
 1. Pandas
 use this command to install pandas *pip install pandas*
 
