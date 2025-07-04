@@ -10,7 +10,7 @@ Forget everything you know about libraries. This is not a building with books. T
 
 ![1430835255-ryan-gosling-cereal-001](https://github.com/user-attachments/assets/27941eff-c440-4a05-8f61-eac7d37902fa)
 # Depencencies  
-1. Pandas\  
+1. Pandas    
 use this command to install pandas *pip install pandas*
 
 
