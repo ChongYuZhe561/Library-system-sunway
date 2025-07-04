@@ -16,9 +16,9 @@ lending_names=['Book ID', 'Member ID', 'Lending Date', 'return Date']
 column_names_books = colummn_names
 column_names_members = members_names
 column_names_lending = lending_names
-BOOKS_FILE = Path('Your path')
-MEMBERS_FILE =Path('Your path')
-LENDING_FILE = Path('Your path')
+BOOKS_FILE = Path('Your path') #Add your path here
+MEMBERS_FILE =Path('Your path')  #Add your path here
+LENDING_FILE = Path('Your path')  #Add your path here
 
 BOOKS_FILE.parent.mkdir(parents=True, exist_ok=True)
 MEMBERS_FILE.parent.mkdir(parents=True, exist_ok=True)
