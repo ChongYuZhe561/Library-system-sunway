@@ -154,10 +154,10 @@ def menu():
             for i, book in enumerate(books_list): # Use enumerate to get index for updating
                 if book[0] == lend_book_ID:
                     book_found_in_inventory = True
-                    # CORRECTED: Explicitly check for the string "Available"
+                    #Explicitly check for the string "Available"
                     if book[3] == "Available":
                         book_is_available = True
-                        # CORRECTED: Set availability to the string "Borrowed"
+                        #Set availability to the string "Borrowed"
                         books_list[i][3] = "Borrowed"
                         break # Book found and status checked, exit loop
 
