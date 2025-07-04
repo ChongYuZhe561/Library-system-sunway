@@ -1,7 +1,4 @@
-books_list = []
-members_list = []
-lending_list = []
-#tba lists to seperate text files
+
 import os
 from pathlib import Path
 import pandas as pd
