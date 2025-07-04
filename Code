@@ -114,7 +114,7 @@ def menu():
 
             # Check if book already exists (BEFORE collecting more info or appending)
             if any(book[0] == book_ID for book in books_list):
-                print("❌ Book with this ID already exists. Please use a different ID.")
+                print("Book with this ID already exists. Please use a different ID.")
                 continue # Go back to the menu loop
 
             book_title = input("Book title: ").strip()
@@ -123,20 +123,20 @@ def menu():
 
             # If no duplicate, then add the new book with 4 elements
             books_list.append([book_ID, book_title, book_author, availability])
-            print(f"✅ Book '{book_title}' added successfully with ID '{book_ID}'!")
+            print(f"Book '{book_title}' added successfully with ID '{book_ID}'!")
 
         # --- 2. Register New Member ---
         elif choice in ['2', 'add new member', 'register new member']:
             member_ID = input("Member ID: ").strip()
             # Optional: Add duplicate member ID check here as well
             if any(member[0] == member_ID for member in members_list):
-                print("❌ Member with this ID already exists. Please use a different ID.")
+                print("Member with this ID already exists. Please use a different ID.")
                 continue
 
             member_name = input("Member name: ").strip()
             member_contact = input("Member contact: ").strip()
             members_list.append([member_ID, member_name, member_contact])
-            print("✅ Member added successfully!")
+            print("Member added successfully!")
 
         # --- 3. Lend Book ---
         elif choice in ['3', 'lend book', 'lend a book']:
@@ -145,7 +145,7 @@ def menu():
 
             # Optional: Check if member ID exists before proceeding with lending
             if not any(member[0] == lend_member_ID for member in members_list):
-                print(f"❌ Error: Member with ID '{lend_member_ID}' not found.")
+                print(f" Error: Member with ID '{lend_member_ID}' not found.")
                 continue
 
             # First, try to find the book and check its availability
@@ -162,16 +162,16 @@ def menu():
                         break # Book found and status checked, exit loop
 
             if not book_found_in_inventory:
-                print(f"❌ Error: Book with ID '{lend_book_ID}' not found in inventory.")
+                print(f" Error: Book with ID '{lend_book_ID}' not found in inventory.")
             elif not book_is_available:
                 # If book was found but not available, 'book' variable still holds its data
-                print(f"❌ Book '{lend_book_ID}' is currently not available for lending (Status: {book[3]}).")
+                print(f"Book '{lend_book_ID}' is currently not available for lending (Status: {book[3]}).")
             else:
                 lend_date = input("Lending date (YYYY-MM-DD): ").strip()
                 return_date_placeholder = "Not Returned" # Consistent placeholder for return date
                 # If book is found and available, then record the lending transaction
                 lending_list.append([lend_book_ID, lend_member_ID, lend_date, return_date_placeholder])
-                print(f"✅ Book '{lend_book_ID}' successfully lent to member '{lend_member_ID}' on {lend_date}.")
+                print(f" Book '{lend_book_ID}' successfully lent to member '{lend_member_ID}' on {lend_date}.")
 
         # --- 4. Return Book ---
         elif choice in ['4', 'return book', 'return a book']:
@@ -189,7 +189,7 @@ def menu():
                     break
 
             if not found_lending_record:
-                print("⚠️ Warning: No active lending record found for this Book ID and Member ID, or it was already returned.")
+                print("Warning: No active lending record found for this Book ID and Member ID, or it was already returned.")
             else:
                 # Update book availability to 'Available' in books_list
                 found_book_in_inventory = False
@@ -199,8 +199,8 @@ def menu():
                         found_book_in_inventory = True
                         break
                 if not found_book_in_inventory:
-                    print(f"⚠️ Warning: Book ID '{return_book_ID}' not found in inventory. Book status not updated.")
-                print("✅ Book return recorded and availability updated!")
+                    print(f"Warning: Book ID '{return_book_ID}' not found in inventory. Book status not updated.")
+                print("Book return recorded and availability updated!")
 
         # --- 5. Display Books Inventory ---
         elif choice in ['5', 'display books inventory', 'show books inventory']:
@@ -223,10 +223,10 @@ def menu():
         # --- 7. Exit ---
         elif choice in ['7', 'exit', 'quit']:
             save_data() # Save all data before exiting
-            print("👋 Exiting the system. Goodbye!")
+            print("Exiting the system. Goodbye!")
             break
         else:
-            print("❌ Invalid choice. Please try again.")
+            print("Invalid choice. Please try again.")
             
 
 if __name__ == "__main__":
