@@ -30,6 +30,9 @@ if os.path.exists(BOOKS_FILE):
                     books_list.append(book_data)
     except Exception as e:
         print(f"Error reading books file: {e}")
+else:
+    # If books file does not exist, create it with a header
+    open(BOOKS_FILE, 'w').write('Book ID,Book Title,Book Author,Availability\n')
         
 if os.path.exists(MEMBERS_FILE):
     try:
@@ -40,6 +43,9 @@ if os.path.exists(MEMBERS_FILE):
                     members_list.append(member_data)
     except Exception as e:
         print(f"Error reading members file: {e}")
+else:
+    # If members file does not exist, create it with a header
+    open(MEMBERS_FILE, 'w').write('Member ID,Member Name,Member Contact\n')
         
 if os.path.exists(LENDING_FILE):
     try:
@@ -50,6 +56,9 @@ if os.path.exists(LENDING_FILE):
                     lending_list.append(lending_data)
     except Exception as e:
         print(f"Error reading lending file: {e}")
+else:
+    # If lending file does not exist, create it with a header
+    open(LENDING_FILE, 'w').write('Book ID,Member ID,Lending Date,Return Date\n')
 
 def menu(): 
     print("1. Add New Book")
